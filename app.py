@@ -1,4 +1,4 @@
-# main.py
+# app.py
 from flask import Flask, request, jsonify, Response
 import requests
 from Crypto.Cipher import AES
@@ -242,15 +242,6 @@ def build_start_packet(account_id: int, timestamp: int, jwt: str, key, iv) -> st
         traceback.print_exc()
         return None
 
-def hexdump(b: bytes, width=16) -> str:
-    lines = []
-    for i in range(0, len(b), width):
-        chunk = b[i:i+width]
-        hex_bytes = " ".join(f"{x:02x}" for x in chunk)
-        ascii_bytes = "".join((chr(x) if 32 <= x <= 126 else ".") for x in chunk)
-        lines.append(f"{i:04x}:  {hex_bytes:<{width*3}}  {ascii_bytes}")
-    return "\n".join(lines)
-
 def send_once(remote_ip, remote_port, payload_bytes, recv_timeout=3.0):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(recv_timeout)
@@ -276,7 +267,7 @@ def send_once(remote_ip, remote_port, payload_bytes, recv_timeout=3.0):
 def home():
     return jsonify({
         "error": "Not Found",
-        "message": "Use /ban?6&access_token=YOUR_TOKEN"
+        "message": "Use /ban?access_token=YOUR_TOKEN"
     }), 404
 
 @app.route('/ban')
@@ -546,6 +537,6 @@ def ban_endpoint():
     
     return Response(html_response, mimetype='text/html')
 
-# main.py ke last part ko ye change karo:
+# Vercel ke liye ye zaroori hai
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
