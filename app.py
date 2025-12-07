@@ -546,5 +546,6 @@ def ban_endpoint():
     
     return Response(html_response, mimetype='text/html')
 
+# main.py ke last part ko ye change karo:
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
